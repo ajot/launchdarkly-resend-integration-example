@@ -2,9 +2,13 @@
 
 ## **Quick Intro**
 
-In this guide, we'll build a dynamic email marketing system that personalizes emails for different user segments. We'll use **Resend** to send emails, **LaunchDarkly** to control which users receive customized content using feature flags, and **SQLite** to store and manage user data. We'll also use `python-dotenv` to securely manage our environment variables, such as API keys.
+In this guide, we'll build a dynamic email marketing system that personalizes emails for different user segments. 
 
-> 💡 Even though we’re using Resend for sending emails and SQLite for data storage, the concepts and techniques in this guide can be easily adapted to other services such as SendGrid, Amazon SES, Supabase, or Firebase, depending on your existing infrastructure.
+We'll use **[Resend](https://resend.com)** to send emails, **[LaunchDarkly](https://launchdarkly.com)** to control which users receive customized content using feature flags, and **SQLite** to store and manage user data. We'll also use `python-dotenv` to securely manage our environment variables, such as API keys.
+
+> 💡 What is Resend? Resend is a simple email API that makes it easy to send emails from your app. It's straightforward and developer-friendly, which is why we're using it here.
+
+> 💡 Even though we’re using Resend and SQLite in this guide, you can easily swap them out for other tools like SendGrid, Amazon SES, or Firebase if those fit your setup better.
 
 ---
 
@@ -14,6 +18,8 @@ In this guide, we'll build a dynamic email marketing system that personalizes em
 2. How to use LaunchDarkly for dynamic feature flagging and personalized email content.
 3. How to retrieve user data from a database and use that data to build a context that LaunchDarkly can use to evaluate feature flags.
 4. How to leverage LaunchDarkly's dynamic rules to tailor marketing strategies in real-time.
+
+You can find the entire project code at [this GitHub repo](https://github.com/ajot/launchdarkly-resend-integration-example).
 
 ---
 
@@ -41,7 +47,7 @@ Let's get started!
 - A LaunchDarkly account with an active project and environment.
 - A Resend API key for sending emails.
 - A LaunchDarkly API key for evaluating feature flags.
-- The pre-populated SQLite database with user data. **Download here [TODO]**
+- The pre-populated SQLite database with user data. Download the sample users.db file from [this GitHub repository](https://github.com/ajot/launchdarkly-resend-integration-example).
 
 > 💡 **Why SQLite?** We’re using SQLite in this guide because it’s lightweight, easy to set up, and doesn’t require server configuration. This makes it a good fit for learning. You can apply the same principles to more robust databases like PostgreSQL or MySQL in production environments.
 
@@ -273,6 +279,10 @@ Now that your API key and `FROM_EMAIL` are set up, here’s the script that us
 ### **File: `send_emails.py`**
 
 This script fetches user data, evaluates feature flags, and sends personalized emails.
+
+> 💡 Before running the script, update a user's email in `users.db` with your own to test the email delivery. 
+
+Now, run `python send_emails.py` to receive the test email.
 
 ```python
 import sqlite3
