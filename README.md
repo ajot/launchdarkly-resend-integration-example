@@ -6,18 +6,16 @@ In this guide, we'll build a dynamic email marketing system that personalizes em
 
 We'll use **[Resend](https://resend.com)** to send emails, **[LaunchDarkly](https://launchdarkly.com)** to control which users receive customized content using feature flags, and **SQLite** to store and manage user data. We'll also use `python-dotenv` to securely manage our environment variables, such as API keys.
 
-> 💡 What is Resend? Resend is a simple email API that makes it easy to send emails from your app. It's straightforward and developer-friendly, which is why we're using it here.
-
-> 💡 Even though we’re using Resend and SQLite in this guide, you can easily swap them out for other tools like SendGrid, Amazon SES, or Firebase if those fit your setup better.
+> 💡 What is Resend? Resend is a simple email API that makes it easy to send emails from your app. Also, even though we’re using Resend and SQLite in this guide, you can easily swap them out for other tools like SendGrid, Amazon SES, or Firebase if those fit your setup better.
 
 ---
 
 ### **What You'll Learn**
 
-1. How to send personalized emails at scale with Resend.
-2. How to use LaunchDarkly for dynamic feature flagging and personalized email content.
-3. How to retrieve user data from a database and use that data to build a context that LaunchDarkly can use to evaluate feature flags.
-4. How to leverage LaunchDarkly's dynamic rules to tailor marketing strategies in real-time.
+1. How to use LaunchDarkly to manage feature flags and personalize email content.
+2. How to send customized emails at scale using Resend.
+3. How to pull user data from a database and use it to guide decisions in LaunchDarkly.
+4. How to tweak your email strategy in real-time with LaunchDarkly's flexible rules.
 
 You can find the entire project code at [this GitHub repo](https://github.com/ajot/launchdarkly-resend-integration-example).
 
@@ -25,18 +23,17 @@ You can find the entire project code at [this GitHub repo](https://github.com/aj
 
 ## **What We're Building**
 
-We’re setting up a system that sends personalized emails to two types of users: **premium** and **regular**. We’ll use **LaunchDarkly feature flags** to control which content gets sent based on user details, and we won’t need to touch the code to make changes.
+We're building a system that sends personalized emails to two types of users: **premium** and **regular**. We'll use **LaunchDarkly feature flags** to decide what content each user gets, and you won’t have to change any code to update these rules.
 
-We’ll create a **feature flag** in LaunchDarkly called `premium-content`. It will check the user’s **subscription status** and **purchase count** to decide what kind of email they get. We will then use Resend to send the personalized email. 
+We’ll set up a **feature flag** called `premium-content` in LaunchDarkly, which will check each user’s **subscription status** and **purchase count** to decide what kind of email to send. Then, **Resend** will handle sending the personalized emails.
 
+1. **Premium users** get premium content.
+2. **Regular users** get regular content.
+3. **If a user has made no purchases**, they’ll get the premium content, no matter their status, to encourage them to buy.
 
-1. **Premium users** will get premium content email.
-2. **Regular users** will get regular content email.
-3. **If a user’s purchase count is 0**, no matter if they’re premium or regular, they’ll get the premium content email to encourage them to buy.
+The best part? You can update these rules anytime in LaunchDarkly without touching the code.
 
-The best part? You can change these rules anytime in LaunchDarkly without redeploying the code.
-
-Let's get started!
+Let’s get started!
 
 ---
 
